@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cash register</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f1f1f1;
+            }
+
+            .container {
+                text-align: center;
+                margin-top: 20px; /* Adjust this value to change the vertical alignment */
+            }
+
+            h1 {
+                margin-bottom: 20px;
+            }
+
+            label {
+                font-weight: bold;
+            }
+
+            input {
+                margin-bottom: 10px;
+            }
+
+            input[type="button"] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+            }
+
+            input[type="button"]:hover {
+                background-color: #45a049;
+            }
+
+            #change {
+                font-size: 16px;
+                padding: 10px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+
+            .denomination {
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            .change{
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Cash register</h1>
+            <label for="cost">Total cost:</label>
+            <input type="number" id="cost" name="cost"><br>
+            <label for="amount">Amount provided:</label>
+            <input type="number" id="amount" name="amount"><br>
+            <input type="button" value="Calculate" onclick="Calculate()">
+            <p id="change"></p>
+        </div>
+
+        <script>
+            function Calculate() {
+                var cost = parseFloat(document.getElementById("cost").value);
+                var amount = parseFloat(document.getElementById("amount").value);
+                var change = amount - cost;
+                if (cost < 0 || amount < 0) {
+                    document.getElementById("change").innerHTML = "Cost or amount provided can't be negative.";
+                    return;
+                } else if (cost > amount) {
+                    document.getElementById("change").innerHTML = "You didn't provide enough money, you need to add " + Math.abs(change) + " dollars.";
+                    return;
+                } else {
+                    var change2 = change;
+                    var bill100 = Math.floor(change2 / 100);
+                    change2 = change2 - bill100 * 100;
+                    var bill50 = Math.floor(change2 / 50);
+                    change2 = change2 - bill50 * 50;
+                    var bill20 = Math.floor(change2 / 20);
+                    change2 = change2 - bill20 * 20;
+                    var bill10 = Math.floor(change2 / 10);
+                    change2 = change2 - bill10 * 10;
+                    var bill5 = Math.floor(change2 / 5);
+                    change2 = change2 - bill5 * 5;
+                    var bill1 = Math.floor(change2 / 1);
+                    change2 = change2 - bill1 * 1;
+                    var quarter = Math.floor(change2 / 0.25);
+                    change2 = change2 - quarter * 0.25;
+                    var dime = Math.floor(change2 / 0.10);
+                    change2 = change2 - dime * 0.10;
+                    var nickel = Math.floor(change2 / 0.05);
+                    change2 = change2 - nickel * 0.05;
+                    var penny = Math.floor(change2 / 0.01);
+
+                    document.getElementById("change").innerHTML = "Your change is <span class='change'>" + change + "$</span><br><br> Denominations: " +
+                        "<span class='denomination'>100$ X " + bill100 + "</span>; " +
+                        "<span class='denomination'>50$ X " + bill50 + "</span>; " +
+                        "<span class='denomination'>20$ X " + bill20 + "</span>; " +
+                        "<span class='denomination'>10$ X " + bill10 + "</span>; " +
+                        "<span class='denomination'>5$ X " + bill5 + "</span>; " +
+                        "<span class='denomination'>1$ X " + bill1 + "</span>; " +
+                        "<span class='denomination'>0.25$ X " + quarter + "</span>; " +
+                        "<span class='denomination'>0.10$ X " + dime + "</span>; " +
+                        "<span class='denomination'>0.05$ X " + nickel + "</span>; " +
+                        "<span class='denomination'>0.01$ X " + penny + "</span>";
+                }
+            }
+        </script>
+    </body>
+</html>
